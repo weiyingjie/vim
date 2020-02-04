@@ -30,7 +30,7 @@ set t_Co=256
 set scrolloff=5
 hi Normal ctermfg=252 ctermbg=none
 
-noremap W :w<CR>
+noremap W :wa<CR>
 noremap Q :q<CR>
 noremap T :NERDTreeToggle<CR>
 
@@ -40,6 +40,12 @@ inoremap <C-l> <Right>
 inoremap <C-h> <Left>
 inoremap <C-k> <Up>
 inoremap <C-j> <Down>
+inoremap "" ""<++><ESC>4hi
+inoremap '' ''<++><ESC>4hi
+inoremap {} {}<ESC>i<CR><ESC><Up>o
+inoremap () ()<++><ESC>4hi
+inoremap <> <><++><ESC>4hi
+inoremap ,f <ESC>f<c4l
 
 map R :source $MYVIMRC<CR>
 map s <nop>
@@ -62,8 +68,9 @@ map <C-right> :vertical resize+5<CR>
 map sv <C-w>t<C-w>H
 map sh <C-w>t<C-w>K
 
-map <LEADER><Right> :tabnext<CR>
-map <LEADER><Left> :tabprevious<CR>
+map tl :tabnext<CR>
+map th :tabprevious<CR>
+map tn :tabnew 
 
 "plugins"
 call plug#begin('~/.vim/plugged')
@@ -98,7 +105,7 @@ hi Normal ctermfg=252 ctermbg=none
 "airline"
 "let g:airline_theme='base16_spacemacs'
 " enable/disable enhanced tabline. (c) >
-let g:airline#extensions#tabline#enabled = 0
+let g:airline#extensions#tabline#enabled = 1
 
 " enable/disable displaying open splits per tab (only when tabs are opened) >
 let g:airline#extensions#tabline#show_splits = 1
