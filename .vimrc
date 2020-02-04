@@ -7,6 +7,9 @@ filetype indent on
 filetype plugin on
 filetype plugin indent on
 
+
+"代码补全
+set completeopt=preview,menu
 set number
 set tabstop=4
 set shiftwidth=4
@@ -59,11 +62,15 @@ map <C-right> :vertical resize+5<CR>
 map sv <C-w>t<C-w>H
 map sh <C-w>t<C-w>K
 
+map <LEADER><Right> :tabnext<CR>
+map <LEADER><Left> :tabprevious<CR>
+
 "plugins"
 call plug#begin('~/.vim/plugged')
 
 " vim-airline
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 " Themes
 Plug 'dracula/vim', { 'as': 'dracula' }
@@ -88,6 +95,45 @@ hi Normal ctermfg=252 ctermbg=none
 " let g:SnazzyTransparent = 1
 " color snazzy
 
+"airline"
+"let g:airline_theme='base16_spacemacs'
+" enable/disable enhanced tabline. (c) >
+let g:airline#extensions#tabline#enabled = 0
+
+" enable/disable displaying open splits per tab (only when tabs are opened) >
+let g:airline#extensions#tabline#show_splits = 1
+let g:airline_powerline_fonts = 1  " 支持 powerline 字体
+set laststatus=2  "永远显示状态栏
+
+let g:airline#extensions#ycm#enabled = 1
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+
+"" unicode symbols
+"let g:airline_left_sep = '▶'
+"let g:airline_right_sep = '◀'
+"let g:airline_symbols.crypt = '🔒'
+"let g:airline_symbols.linenr = '☰'
+"let g:airline_symbols.maxlinenr = ''
+"let g:airline_symbols.branch = '⎇'
+"let g:airline_symbols.paste = 'ρ'
+"let g:airline_symbols.paste = 'Þ'
+"let g:airline_symbols.paste = '∥'
+"let g:airline_symbols.spell = 'Ꞩ'
+"let g:airline_symbols.notexists = 'Ɇ'
+"let g:airline_symbols.whitespace = 'Ξ'
+
+" powerline symbols
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = '☰'
+let g:airline_symbols.maxlinenr = ''
+let g:airline_symbols.dirty='⚡'
 "NERDTree"
 
 "autocmd vimenter * NERDTree 自动打开
