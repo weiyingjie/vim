@@ -1,3 +1,18 @@
+" __  ____   __ __     _____ __  __ ____   ____ 
+"|  \/  \ \ / / \ \   / /_ _|  \/  |  _ \ / ___|
+"| |\/| |\ V /   \ \ / / | || |\/| | |_) | |    
+"| |  | | | |     \ V /  | || |  | |  _ <| |___ 
+"|_|  |_| |_|      \_/  |___|_|  |_|_| \_\\____|
+                                               
+" ===
+" === Auto load for first time uses
+" ===
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
 let mapleader=" "
 syntax on
 
