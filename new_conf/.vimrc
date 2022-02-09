@@ -95,20 +95,20 @@ map tn :tabnew
 
 " C:
 autocmd FileType c,cpp nnoremap <buffer> [[ I//<ESC><CR>
-autocmd FileType c,cpp nnoremap <buffer> ]] 0xx<CR>
+autocmd FileType c,cpp nnoremap <buffer> ]] :s/^\(\s*\)\/\//\1/<CR>
 
 " Lua:
 autocmd FileType lua nnoremap <buffer> [[ I--<ESC><CR>
-autocmd FileType lua nnoremap <buffer> ]] 0xx<CR>
+autocmd FileType lua nnoremap <buffer> ]] :s/^\(\s*\)\-\-/\1/<CR>
 
 " Python:
 autocmd FileType python nnoremap <buffer> [[ I#<ESC><CR>
-autocmd FileType python nnoremap <buffer> ]] 0x<CR>
+autocmd FileType python nnoremap <buffer> ]] :s/^\(\s*\)#/\1/<CR>
 
 " Shell:
 autocmd FileType sh nnoremap <buffer> [[ I#<ESC><CR>
-autocmd FileType sh nnoremap <buffer> ]] 0x<CR>
+autocmd FileType sh nnoremap <buffer> ]] :s/^\(\s*\)#/\1/<CR>
 
 " CONF:
 autocmd FileType vim nnoremap <buffer> [[ I"<ESC><CR>
-autocmd FileType vim nnoremap <buffer> ]] 0x<CR>
+autocmd FileType vim nnoremap <buffer> ]] :s/^\(\s*\)"/\1/<CR>
