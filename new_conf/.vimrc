@@ -64,6 +64,7 @@ inoremap [] []<++><ESC>4hi
 inoremap ,f <ESC>f<c4l
 
 map R :source $MYVIMRC<CR>
+noremap VR :vsp $MYVIMRC<CR>
 map s <nop>
 
 map sd :set splitright<CR>:vsplit<CR>
@@ -87,3 +88,27 @@ map sh <C-w>t<C-w>K
 map tl :tabnext<CR>
 map th :tabprevious<CR>
 map tn :tabnew 
+
+" Filetype based Mappings----{
+" Get current filetype -> :echo &filetype or as variable &filetype
+" [ Builds / Compiles / Interpretes  ]
+
+" C:
+autocmd FileType c,cpp nnoremap <buffer> [[ I//<ESC><CR>
+autocmd FileType c,cpp nnoremap <buffer> ]] 0xx<CR>
+
+" Lua:
+autocmd FileType lua nnoremap <buffer> [[ I--<ESC><CR>
+autocmd FileType lua nnoremap <buffer> ]] 0xx<CR>
+
+" Python:
+autocmd FileType python nnoremap <buffer> [[ I#<ESC><CR>
+autocmd FileType python nnoremap <buffer> ]] 0x<CR>
+
+" Shell:
+autocmd FileType sh nnoremap <buffer> [[ I#<ESC><CR>
+autocmd FileType sh nnoremap <buffer> ]] 0x<CR>
+
+" CONF:
+autocmd FileType vim nnoremap <buffer> [[ I"<ESC><CR>
+autocmd FileType vim nnoremap <buffer> ]] 0x<CR>
