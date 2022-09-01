@@ -1,0 +1,207 @@
+let mapleader=" "
+syntax on
+
+set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
+set nocompatible
+filetype on
+filetype indent on
+filetype plugin on
+filetype plugin indent on
+
+set mouse=a
+set number
+set tabstop=4
+set shiftwidth=4
+set ignorecase
+set smartcase   
+set autoindent  
+set relativenumber  " 行号 "
+set cursorline  " 光标线 "
+set wrap    " 自动换行 "
+"set linebreak "单词内部不换行"
+set showcmd " 指令 "
+set wildmenu
+set hlsearch    " 搜索高亮 "
+exec "nohlsearch"
+set incsearch   " 边搜索边高亮 "
+set cindent  
+set backspace=indent,eol,start " 设置退格生效
+set t_Co=256
+set scrolloff=5
+set expandtab  " tab->空格
+
+" 记录光标位置
+augroup resCur
+    autocmd!
+    autocmd BufReadPost * call setpos(".", getpos("'\""))
+augroup END
+
+" Key Maps: {{{
+noremap W :wa<cr>
+noremap Q :q<CR>
+
+inoremap jj <ESC>j
+inoremap kk <ESC>k
+inoremap "" ""<++><ESC>4hi
+inoremap '' ''<++><ESC>4hi
+inoremap {} {}<ESC>i
+inoremap () ()<++><ESC>4hi
+inoremap <> <><++><ESC>4hi
+inoremap [] []<++><ESC>4hi
+inoremap ,f <ESC>f<c4l
+
+map R :source $MYVIMRC<CR>
+noremap VR :vsp $MYVIMRC<CR>
+map s <nop>
+
+map sd :set splitright<CR>:vsplit<CR>
+map sa :set nosplitright<CR>:vsplit<CR>
+map sw :set nosplitbelow<CR>:split<CR>
+map ss :set splitbelow<CR>:split<CR>
+
+map <LEADER>l <C-w>l
+map <LEADER>k <C-w>k
+map <LEADER>h <C-w>h
+map <LEADER>j <C-w>j
+
+map <C-k> :res +5<CR>
+map <C-j> :res -5<CR>
+map <C-h> :vertical resize-5<CR>
+map <C-l> :vertical resize+5<CR>
+
+map sv <C-w>t<C-w>H
+map sh <C-w>t<C-w>K
+
+" }}}
+
+if has('nvim')
+
+" Plugin: {{{
+call plug#begin("~/.local/share/nvim/site/plugged")
+
+Plug 'morhetz/gruvbox'
+Plug 'voldikss/vim-floaterm'
+Plug 'Yggdroot/indentLine'
+
+call plug#end()
+" }}}
+
+" 主题
+let g:gruvbox_contrast_dark = 'soft'
+let g:gruvbox_vert_split = 'bg1'
+
+endif
+
+set background=dark
+colorscheme gruvbox
+
+" 状态行显示的内容
+set statusline=%1*%f%m%r%h%w\%=%y
+set statusline+=%1*%{\"\ [\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\"+\":\"\").\"]\ \"}
+set statusline+=%1*[POS=%l\/%L,%v\|%p%%]\ %{strftime(\"%Y/%m/%d\ -\ %H:%M\")}
+
+hi User1 cterm=None ctermfg=253 ctermbg=239
+
+set laststatus=2    " 启动显示状态行(1),总是显示状态行(2)  
+
+fun! ShowFuncName()
+  let lnum = line(".")
+  let col = col(".")
+  echohl ModeMsg
+  echo getline(search("^[^ \t#/]\\{2}.*[^:]\s*$", 'bW'))
+  echohl None
+  call search("\\%" . lnum . "l" . "\\%" . col . "c")
+endfun
+map <C-f> :call ShowFuncName() <CR>
+
+if has('nvim')
+" 折叠
+let filepath = expand('%:p:~:gs?/?=+?') .. "="
+let filepath = join([expand("$HOME/.local/share/nvim/view/"), filepath], "")
+if filereadable(filepath)
+    autocmd BufWinEnter * silent loadview
+endif
+autocmd BufWinLeave * silent mkview
+
+" Floaterm: {{{
+let g:floaterm_shell = 'zsh'
+let g:floaterm_position = 'bottom'
+
+nnoremap <silent> <C-t>n :FloatermNew<CR>
+tnoremap <silent> <C-t>n <C-\><C-n>:FloatermNew<CR>
+nnoremap <silent> <C-t>h :FloatermPrev<CR>
+tnoremap <silent> <C-t>h <C-\><C-n>:FloatermPrev<CR>
+nnoremap <silent> <C-t>l :FloatermNext<CR>
+tnoremap <silent> <C-t>l <C-\><C-n>:FloatermNext<CR>
+nnoremap <silent> <C-t>t :FloatermToggle<CR>
+tnoremap <silent> <C-t>t <C-\><C-n>:FloatermToggle<CR>
+nnoremap <silent> <C-t>k :FloatermKill<CR>
+tnoremap <silent> <C-t>k <C-\><C-n>:FloatermKill<CR>
+" }}}
+
+" 缩进 {{{
+ let g:indentLine_char_list = ['|', '¦', '┆', '┊']
+ let g:indentLine_enabled = 0
+ let g:indentLine_defaultGroup = 'SpecialKey'
+ map \ :IndentLinesToggle<CR>
+" }}}
+
+endif
+
+" Custom Filetype: {
+"
+" Zeek:
+autocmd! BufNewFile,BufRead *.zeek,*.bif set filetype=zeek
+
+" }
+
+" Filetype based Mappings----{{{
+" Get current filetype -> :echo &filetype or as variable &filetype
+" [ Builds / Compiles / Interpretes  ]
+
+fun! Uncomment(lang)
+    if a:lang ==? "c"
+        if match(getline("."), '^\s*\/\/') == 0
+            :s/^\(\s*\)\/\//\1/
+        endif
+    elseif a:lang ==? "lua"
+        echom match(getline("."), '^\s*\-\-')
+        if match(getline("."), '^\s*\-\-') == 0
+            :s/^\(\s*\)\-\-/\1/
+        endif
+    elseif a:lang ==? "python"
+        if match(getline("."), '^\s*#') == 0
+            :s/^\(\s*\)#/\1/
+        endif
+    elseif a:lang ==? "shell"
+        if match(getline("."), '^\s*#') == 0
+            :s/^\(\s*\)#/\1/
+        endif
+    elseif a:lang ==? "vim"
+        if match(getline("."), '^\s*"') == 0
+            :s/^\(\s*\)"/\1/
+        endif
+    endif
+endfun
+" C:
+autocmd FileType c,cpp nnoremap <buffer> [[ I//<ESC><CR>
+autocmd FileType c,cpp nnoremap <buffer> ]] :call Uncomment("c")<CR><CR>
+
+" Lua:
+autocmd FileType lua nnoremap <buffer> [[ I--<ESC><CR>
+autocmd FileType lua nnoremap <buffer> ]] :call Uncomment("lua")<CR><CR>
+
+" Python:
+autocmd FileType python nnoremap <buffer> [[ I#<ESC><CR>
+autocmd FileType python nnoremap <buffer> ]] :call Uncomment("python")<CR><CR>
+
+" Shell:
+autocmd FileType sh nnoremap <buffer> [[ I#<ESC><CR>
+autocmd FileType sh nnoremap <buffer> ]] :call Uncomment("shell")<CR><CR>
+
+" Vim:
+autocmd FileType vim nnoremap <buffer> [[ I"<ESC><CR>
+autocmd FileType vim nnoremap <buffer> ]] :call Uncomment("vim")<CR><CR>
+
+" }}}
+

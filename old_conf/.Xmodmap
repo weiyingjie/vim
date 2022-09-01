@@ -1,6 +1,0 @@
-!No Caps Lock
-remove Lock = Caps_Lock
-!caps <-> esc
-keysym Escape = Caps_Lock
-keysym Caps_Lock = Escape
-add Lock = Caps_Lock
