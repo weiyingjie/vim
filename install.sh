@@ -32,7 +32,8 @@ fi
 
 WORK_DIR=`pwd`
 
-\cp -raf $WORK_DIR/vim $HOME/.vim
+mkdir $HOME/.vim
+\cp -raf $WORK_DIR/vim/* $HOME/.vim
 if [ "$TARGET" == "nvim" ]
 then
     mkdir -p $HOME/.config/nvim
