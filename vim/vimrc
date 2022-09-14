@@ -14,7 +14,8 @@ syntax on
 filetype on
 filetype plugin indent on
 
-" HOME和END不能使用时, bashrc设置TERM=tmux即可解决
+" HOME和END不能使用时, bashrc设置TERM=xxx即可解决,
+" xxx可以通过查看/usr/share/terminfo/ 下的文件名确定, 如xterm-vt220可用
 
 set mouse=a
 set number
