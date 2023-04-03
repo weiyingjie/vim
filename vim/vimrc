@@ -90,9 +90,18 @@ if has("nvim") && !empty(glob("~/.local/share/nvim/site/autoload/plug.vim"))
 " Plugin: {{{
 call plug#begin("~/.local/share/nvim/site/plugged")
 
+" 主题
 Plug 'morhetz/gruvbox'
+" 浮动终端
 Plug 'voldikss/vim-floaterm'
+" 对齐线
 Plug 'Yggdroot/indentLine'
+" 包裹
+Plug 'tpope/vim-surround'
+" 对齐
+Plug 'junegunn/vim-easy-align'
+" coc
+Plug 'neoclide/coc.nvim'
 
 call plug#end()
 " }}}
@@ -132,11 +141,11 @@ let filepath = join([expand("$HOME/.local/share/nvim/view/"), filepath], "")
 if filereadable(filepath)
     autocmd BufWinEnter * silent !loadview
 endif
-autocmd BufWinLeave * silent mkview
+autocmd BufWinLeave * silent !mkview
 
 " Floaterm: {{{
 " 默认为$SHELL
-"let g:floaterm_shell = 'zsh' 
+let g:floaterm_shell = 'zsh' 
 let g:floaterm_position = 'bottom'
 
 nnoremap <silent> <C-t>n :FloatermNew<CR>
@@ -156,6 +165,14 @@ tnoremap <silent> <C-t>k <C-\><C-n>:FloatermKill<CR>
  let g:indentLine_enabled = 0
  let g:indentLine_defaultGroup = 'SpecialKey'
  map \ :IndentLinesToggle<CR>
+" }}}
+
+" 格式化对齐 {{{
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
 " }}}
 
 endif
@@ -217,3 +234,13 @@ autocmd FileType vim nnoremap <buffer> ]] :call Uncomment("vim")<CR><CR>
 
 " }}}
 
+" Coc Plugin Config: {{{
+" coc-translate
+"" popup
+nmap <Leader>t <Plug>(coc-translator-p)
+vmap <Leader>t <Plug>(coc-translator-pv)
+"" echo
+nmap <Leader>e <Plug>(coc-translator-e)
+vmap <Leader>e <Plug>(coc-translator-ev)
+
+" }}}
